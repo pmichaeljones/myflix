@@ -3,7 +3,8 @@ require 'spec_helper'
 describe Video do
 
   before do
-    @video = Video.new(title:"When Harry Met Sally", description:"A touching story.")
+    Category.new(name:"Horror").save
+    @video = Video.new(title:"When Harry Met Sally", description:"A touching story.", category_id: 1)
   end
 
   it "has a title" do
@@ -15,6 +16,9 @@ describe Video do
     expect(@video.valid?).to eq(true)
   end
 
+  it "can belong to a category" do
+    expect(@video.category.name).to eq("Horror")
+  end
 
 end
 
