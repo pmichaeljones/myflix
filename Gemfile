@@ -23,6 +23,8 @@ group :development, :test do
 end
 
 group :test do
+  gem 'shoulda'
+  gem 'shoulda-matchers', require: false
   gem 'database_cleaner', '1.2.0'
 end
 
