@@ -8,13 +8,9 @@ describe Category do
     expect(Category.first).to eq(category)
   end
 
-  it "has many videos" do
-    dark_humor = Category.create(name:"Dark Humor")
-    south_park = Video.create(title:"South Park", description:"Funny video", category: dark_humor)
-    futurama = Video.create(title:"Futurama", description:"Space travel video", category: dark_humor)
+  it { should have_many(:videos)}
 
-    expect(dark_humor.videos).to eq([futurama, south_park])
-  end
+  it { should validate_presence_of(:name)}
 
 
 end
