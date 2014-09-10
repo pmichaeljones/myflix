@@ -34,12 +34,13 @@ describe Video do
     expect(Video.search_by_title("forest")).to eq([@forest_whitaker, @forest_gump, @forest_hills])
   end
 
-
-
   it "should return an empty array when searching for 'dogs' " do
     expect(Video.search_by_title("dogs")).to eq([])
   end
 
+  it "returns nothing for an empty string search" do
+    expect(Video.search_by_title("")).to eq([])
+  end
 
 end
 
