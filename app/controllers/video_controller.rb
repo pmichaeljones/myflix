@@ -6,6 +6,11 @@ class VideoController < ApplicationController
   end
 
   def search
+    #binding.pry
+
+    @results = Video.search_by_title(params[:input])
+
+    render :results
 
   end
 
