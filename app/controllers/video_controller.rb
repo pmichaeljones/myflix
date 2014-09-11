@@ -5,4 +5,9 @@ class VideoController < ApplicationController
     @video = Video.find(params[:id])
   end
 
+  def search
+
+  end
+
+
 end
