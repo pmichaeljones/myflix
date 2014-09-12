@@ -1,9 +1,14 @@
 %article.video_category
   %header
-    %h3= link_to "Category Here"
-  .videos.row
-    - @videos.each do |video|
-      .video.col-sm-2
-        %h4=video.title
-        = link_to video_path(video) do
-          %img(src="#{video.small_image_url}")
+    -@categories.each do |cat|
+      %h3
+        %hr
+        = link_to "#{cat.name}", category_path(cat)
+        %hr
+      .videos.row
+        - cat.recent_videos.each do |video|
+          .video.col-sm-2
+            %h4=video.title
+            = link_to video_path(video) do
+              %img(src="#{video.small_image_url}")
+
