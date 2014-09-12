@@ -1,5 +1,11 @@
 class VideoController < ApplicationController
 
+  def index
+    #binding.pry
+    @videos = Video.all
+    @categories = Category.all
+  end
+
   def show
     #binding.pry
     @video = Video.find(params[:id])

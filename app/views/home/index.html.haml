@@ -1,14 +1,8 @@
-%article.video_category
-  %header
-    -@categories.each do |cat|
-      %h3
-        %hr
-        = link_to "#{cat.name}", category_path(cat)
-        %hr
-      .videos.row
-        - cat.recent_videos.each do |video|
-          .video.col-sm-2
-            %h4=video.title
-            = link_to video_path(video) do
-              %img(src="#{video.small_image_url}")
-
+%section.site_title
+  %h1
+    Unlimited Movies for Only 9.99 a Month.
+    = link_to "Sign Up Now!", register_path
+  %p.sign_up
+  %p.sign_in
+    Have an account? Please
+    = link_to "Sign In", login_path

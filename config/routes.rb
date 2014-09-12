@@ -3,8 +3,6 @@ Myflix::Application.routes.draw do
 
   root to: 'home#index'
 
-  get '/home' => 'home#index'
-
   resources 'video' do
     collection do
       get 'search', to: 'video#search'
@@ -12,4 +10,9 @@ Myflix::Application.routes.draw do
   end
 
   resources 'category'
+
+  get '/login', to: 'session#login'
+
+  get '/register', to: 'session#register'
+
 end
