@@ -5,10 +5,10 @@ class Video < ActiveRecord::Base
 
   def self.search_by_title(string)
 
-  return [] if string == ""
+    return [] if string == ""
 
-  result = Video.where('title LIKE ?', "%" + string + "%")
-  result.sort_by  &:created_at
+    result = Video.where('title LIKE ?', "%" + string + "%")
+    result.sort_by  &:created_at
 
   end
 
