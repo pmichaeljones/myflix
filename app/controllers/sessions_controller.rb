@@ -2,6 +2,7 @@ class SessionsController < ApplicationController
 
 
   def new
+    redirect_to root_path if current_user
 
   end
 
@@ -9,16 +10,17 @@ class SessionsController < ApplicationController
 
    #binding.pry
 
-    @user = User.where(email_address: params[:email]).first
+    user = User.where(email_address: params[:email]).first
 
     #binding.pry
 
-    if @user && @user.authenticate(params[:password])
-      session[:user_id] = @user.id
+    if user && user.authenticate(params[:password])
+      session[:user_id] = user.id
+      flash[:info] = "You are now logged in."
       redirect_to videos_path
     else
-      flash[:notice] = "Your username or password was wrong."
-      redirect_to :back
+      flash[:danger] = "Your username or password was wrong."
+      render :new
     end
 
   end

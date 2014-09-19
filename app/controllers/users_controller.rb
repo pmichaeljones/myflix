@@ -12,7 +12,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-      flash[:notice] = "You're all signed up!"
+      flash[:info] = "You're all signed up!"
       redirect_to sign_in_path
     else
       render :new
@@ -34,7 +34,7 @@ class UsersController < ApplicationController
     @user = User.find_by slug: params[:id]
 
     if current_user != @user
-      flash[:error] = "You must be logged in."
+      flash[:danger] = "You must be logged in."
       redirect_to :root
     end
 
