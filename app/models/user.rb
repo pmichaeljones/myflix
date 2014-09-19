@@ -4,6 +4,6 @@ class User < ActiveRecord::Base
 
   validates_presence_of :full_name, :email_address, :password_digest
 
-  validates_uniqueness_of :emaill_address
+  validates_uniqueness_of :email_address
 
 end

@@ -1,22 +1,29 @@
 %section#top-header.row
   %h1.col-md-2
-    = link_to "MyFLiX", root_path
-  %ul.col-md-4.clearfix
-    %li= link_to "Videos", videos_path
-    %li= link_to "My Queue"
-    %li= link_to "People"
-  =form_tag search_videos_path, method: :get, class: 'col-md-5 navbar-form' do
-    .form-group
-      = text_field_tag "input", nil, type: 'text', placeholder: 'Enter Search Term Here', class: 'form-control'
-      = submit_tag "Search", type: 'submit', class: 'btn btn-default'
-  #user_links.pull-right
-    %ul
-      %li.dropdown
-        %a(href="#" id="dlabel" role="button" data-toggle="dropdown" class="dropdown-toggle" data-target="#")
-          Welcome, Philip J. Fry
-          %b.caret
-        %ul.dropdown-menu(role="menu" aria-labelledby="dlabel")
-          %li
-            %a(href="#") Account
-            %a(href="#") Plan and Billing
-            %a(href="#") Sign Out
+    -if !logged_in?
+      = link_to "MyFLiX", root_path
+    - else
+      = link_to "MyFLiX", videos_path
+  - if logged_in?
+    %ul.col-md-4.clearfix
+      %li= link_to "Videos", videos_path
+      %li= link_to "My Queue"
+      %li= link_to "People"
+    = form_tag search_videos_path, method: :get, class: 'col-md-5 navbar-form' do
+      .form-group
+        = text_field_tag "input", nil, type: 'text', placeholder: 'Enter Search Term Here', class: 'form-control'
+        = submit_tag "Search", type: 'submit', class: 'btn btn-default'
+    #user_links.pull-right
+      %ul
+        %li.dropdown
+          %a(href="#" id="dlabel" role="button" data-toggle="dropdown" class="dropdown-toggle" data-target="#")
+            Welcome,
+            /= binding.pry
+            = current_user.full_name
+            %b.caret
+          %ul.dropdown-menu(role="menu" aria-labelledby="dlabel")
+            %li
+              %a(href="#") Account
+              %a(href="#") Plan and Billing
+              = link_to "Log out", log_out_path
+
