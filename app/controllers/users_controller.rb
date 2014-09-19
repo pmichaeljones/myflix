@@ -10,7 +10,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-      flash[:notice] = "You're logged in!"
+      flash[:notice] = "You're all signed up!"
       redirect_to :root
     else
       flash[:notice] = "Something went wrong."
