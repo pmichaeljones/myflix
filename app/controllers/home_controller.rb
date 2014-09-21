@@ -1,8 +1,7 @@
 class HomeController < ApplicationController
 
   def index
-    #binding.pry
-    @videos = Video.all
+    redirect_to videos_path if current_user
   end
 
 end
