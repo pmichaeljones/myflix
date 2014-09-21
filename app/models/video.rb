@@ -7,8 +7,7 @@ class Video < ActiveRecord::Base
 
     return [] if string == ""
 
-    result = Video.where('title LIKE ?', "%" + string + "%")
-    result.sort_by  &:created_at
+    Video.where('title LIKE ?', "%" + string + "%").order("created_at ASC")
 
   end
 
