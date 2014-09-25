@@ -7,13 +7,18 @@ Myflix::Application.routes.draw do
     collection do
       get '/search', to: 'videos#search'
     end
+
+    member do
+      post '/review', to: 'reviews#create'
+    end
+
   end
 
   resources :category
 
   resources :users
 
-  resources :reviews, only: [:new, :create]
+  resources :reviews, only: [:create]
 
   get '/register', to: 'users#new'
 
