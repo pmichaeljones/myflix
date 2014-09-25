@@ -10,6 +10,8 @@ gem 'uglifier'
 gem 'jquery-rails'
 gem 'bcrypt'
 gem 'bootstrap_form'
+gem "faker"
+gem "fabrication"
 
 group :development do
   gem 'sqlite3'
@@ -28,8 +30,6 @@ group :test do
   gem 'shoulda'
   gem 'shoulda-matchers', require: false
   gem 'database_cleaner', '1.2.0'
-  gem "faker"
-  gem "fabrication"
 end
 
 group :production do
