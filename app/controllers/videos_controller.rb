@@ -1,4 +1,4 @@
-class VideosController < ApplicationController
+ class VideosController < ApplicationController
 
   before_filter :require_user
 
@@ -10,7 +10,10 @@ class VideosController < ApplicationController
 
   def show
     #binding.pry
+    @review = Review.new
     @video = Video.find(params[:id])
+    @reviews = @video.reviews
+    #binding.pry
   end
 
   def search

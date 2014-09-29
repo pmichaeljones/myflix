@@ -10,6 +10,8 @@ gem 'uglifier'
 gem 'jquery-rails'
 gem 'bcrypt'
 gem 'bootstrap_form'
+gem "faker"
+gem "fabrication"
 
 group :development do
   gem 'sqlite3'
