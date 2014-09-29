@@ -8,9 +8,7 @@ Myflix::Application.routes.draw do
       get '/search', to: 'videos#search'
     end
 
-    member do
-      post '/review', to: 'reviews#create'
-    end
+    resources :reviews, only: [:create]
 
   end
 
@@ -18,11 +16,12 @@ Myflix::Application.routes.draw do
 
   resources :users
 
-  resources :reviews, only: [:create]
+  #resources :reviews, only: [:create]
 
   get '/register', to: 'users#new'
 
   get '/sign_in', to: 'sessions#new'
   post '/sign_in', to: 'sessions#create'
   get '/log_out', to: 'sessions#destroy'
+
 end

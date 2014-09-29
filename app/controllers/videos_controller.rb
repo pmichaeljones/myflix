@@ -1,4 +1,4 @@
-class VideosController < ApplicationController
+ class VideosController < ApplicationController
 
   before_filter :require_user
 

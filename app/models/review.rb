@@ -2,5 +2,6 @@ class Review < ActiveRecord::Base
   belongs_to :video
   belongs_to :user
 
-  default_scope { order('created_at DESC')}
+  validates_presence_of :body, :rating
+
 end

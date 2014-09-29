@@ -6,7 +6,8 @@
       .video_info.col-sm-3
         %header
           %h3=@video.title
-          %span Rating: 4.5/5.0
+          %span
+          = average_rating(@video)
         %p=@video.description
         .actions
           %a.btn.btn-primary(href="") Watch Now
@@ -14,12 +15,12 @@
 %section.reviews.container
   .row
     .col-sm-10.col-sm-offset-1
-      = form_for(@review, url: review_video_path) do |f|
+      = bootstrap_form_for [@video, Review.new ] do |f|
         .form-group
           .row
             .col-sm-3
               = f.label :rating, "Rate This Video"
-              = select_tag(:rating, options_for_select([['5 Great', 5], ['4 Good', 4], ['3 Okay', 3], ['2 Decent', 2], ['1 Bad', 1]]), { :class => 'form-control' })
+              = f.select(:rating, options_for_select([['5 Stars', 5], ['4 Stars', 4], ['3 Stars', 3], ['2 Stars', 2], ['1 Star', 1]]), { :class => 'form-control' })
         .form-group
           .row
             .col-sm-8
@@ -30,10 +31,10 @@
       %header
         %h3
         User Reviews (
-        = @reviews.count
+        = @video.reviews.count
         )
       %ul
-        - @reviews.each do |review|
+        - @video.reviews.each do |review|
           %article.review
             %li.row
               .col-sm-2

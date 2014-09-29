@@ -17,9 +17,21 @@ describe VideosController do
       expect(response).to redirect_to sign_in_path
     end
 
-    it 'should set the @review variable'
+    it 'should set the @review variable for authenticated' do
+      session[:user_id] = Fabricate(:user).id
+      video = Fabricate(:video)
+      get :show, id: video.id
+      expect(assigns(:review)).to be_instance_of(Review)
+    end
 
-    it 'should set the @reviews variable'
+
+    it 'should set the @reviews variable' do
+      session[:user_id] = Fabricate(:user).id
+      video = Fabricate(:video)
+      get :show, id: video.id
+      expect(assigns(:reviews)).to eq(Review.all)
+    end
+
 
   end #ends GET show
 
