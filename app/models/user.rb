@@ -7,4 +7,6 @@ class User < ActiveRecord::Base
 
   validates_uniqueness_of :email_address
 
+  has_many :queue_items
+
 end
