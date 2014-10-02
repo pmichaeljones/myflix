@@ -3,11 +3,10 @@ require 'spec_helper'
 describe QueueItemsController do
 
   describe 'DELETE destroy' do
-      let(:diehard) {Fabricate(:video)}
-      let(:jim) {Fabricate(:user)}
-      let(:bob) {Fabricate(:user)}
 
     it 'should redirect to my queue page' do
+      bob = Fabricate(:user)
+      jim = Fabricate(:user)
       queue_item = Fabricate(:queue_item)
       session[:user_id] = jim.id
       delete :destroy, id: queue_item.id
@@ -15,6 +14,9 @@ describe QueueItemsController do
     end
 
     it 'deletes the queue item' do
+      bob = Fabricate(:user)
+      jim = Fabricate(:user)
+      diehard = Fabricate(:video)
       queue_item = Fabricate(:queue_item, user: jim, video: diehard)
       session[:user_id] = jim.id
       delete :destroy, id: queue_item.id
@@ -22,6 +24,9 @@ describe QueueItemsController do
     end
 
     it 'should does not delete queue item if current user does not own queue item' do
+      bob = Fabricate(:user)
+      jim = Fabricate(:user)
+      diehard = Fabricate(:video)
       queue_item = Fabricate(:queue_item, user: jim, video: diehard)
       session[:user_id] = bob.id
       delete :destroy, id: queue_item.id
@@ -32,6 +37,16 @@ describe QueueItemsController do
     it 'redirects to signin page for unauthenticated users' do
       delete :destroy, id: 1
       expect(response).to redirect_to sign_in_path
+    end
+
+    it 'normalizes the positions of remaining queue' do
+      bob = Fabricate(:user)
+      jim = Fabricate(:user)
+      queue_item = Fabricate(:queue_item, position: 1, user: bob)
+      queue_item2 = Fabricate(:queue_item, position: 3, user: bob)
+      session[:user_id] = bob.id
+      delete :destroy, id: queue_item.id
+      expect(QueueItem.first.position).to eq(1)
     end
 
   end
@@ -147,9 +162,72 @@ describe QueueItemsController do
       end
     end
 
-    context 'with invalid inputs'
-    context 'with unauthenticated user'
-    context 'with queue items that do not below to current user'
+    context 'with invalid inputs' do
+
+      it 'redirects to the my queue page' do
+        bob = Fabricate(:user)
+        session[:user_id] = bob.id
+        queue_item1 = Fabricate(:queue_item, user: bob, position: 1)
+        queue_item2 = Fabricate(:queue_item, user: bob, position: 2)
+
+        post :update_queue, queue_items:
+        [{id: queue_item1.id, position: 3.4},
+        {id: queue_item2.id, position: 2}]
+
+        expect(response).to redirect_to my_queue_path
+      end
+
+      it 'sets the flash error message' do
+        bob = Fabricate(:user)
+        session[:user_id] = bob.id
+        queue_item1 = Fabricate(:queue_item, user: bob, position: 1)
+        queue_item2 = Fabricate(:queue_item, user: bob, position: 2)
+
+        post :update_queue, queue_items:
+        [{id: queue_item1.id, position: 3.4},
+        {id: queue_item2.id, position: 2}]
+
+        expect(flash[:danger]).to be_present
+      end
+
+      it 'does not change the queue items' do
+        bob = Fabricate(:user)
+        session[:user_id] = bob.id
+        queue_item1 = Fabricate(:queue_item, user: bob, position: 1)
+        queue_item2 = Fabricate(:queue_item, user: bob, position: 2)
+
+        post :update_queue, queue_items:
+        [{id: queue_item1.id, position: 3},
+        {id: queue_item2.id, position: 2.1}]
+        expect(queue_item1.reload.position).to eq(1)
+      end
+
+    end
+
+    context 'with unauthenticated user' do
+      it 'should redirect to sign_in path' do
+        post :update_queue, queue_items:
+        [{id: 1, position: 3},
+        {id: 2, position: 2.1}]
+        expect(response).to redirect_to sign_in_path
+      end
+
+    end
+
+    context 'with queue items that do not below to current user' do
+
+      it 'does not change the queue item' do
+        bob = Fabricate(:user)
+        session[:user_id] = bob.id
+        phil = Fabricate(:user)
+        queue_item1 = Fabricate(:queue_item, user: phil, position: 1)
+        post :update_queue, queue_items:[{id: queue_item1.id, position: 2}]
+
+        expect(queue_item1.reload.position).to eq(1)
+      end
+
+    end
+
 
   end
 
