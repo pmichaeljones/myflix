@@ -10,6 +10,10 @@ class ReviewsController < ApplicationController
     if @review.save
       flash[:info] = "Thanks for the review."
       redirect_to @video
+    elsif @review.errors.full_messages == ["User has already been taken"]
+      @reviews = @video.reviews.reload
+      flash[:danger] =  "You already reviewed this video"
+      render 'videos/show'
     else
       @reviews = @video.reviews.reload
       flash[:danger] =  "Please write a review before submitting."
