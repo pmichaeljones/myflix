@@ -49,7 +49,6 @@ describe QueueItemsController do
 
   end
 
-
   describe 'GET index' do
     it 'sets @queue_items to the queue items of the logged-in user' do
       bob = Fabricate(:user)
@@ -90,7 +89,6 @@ describe QueueItemsController do
         expect(QueueItem.first.video).to eq(diehard)
       end
 
-
       it 'creates a queue item that is associated with signed in user' do
         post :create, video_id: diehard.id
         expect(QueueItem.first.user).to eq(jim)
@@ -110,13 +108,11 @@ describe QueueItemsController do
         expect(QueueItem.count).to eq(1)
       end
 
-
       it_behaves_like "requires sign in" do
         let(:action) { post :create, video_id: 3 }
       end
 
     end
-
   end
 
   describe 'POST update_queue' do
