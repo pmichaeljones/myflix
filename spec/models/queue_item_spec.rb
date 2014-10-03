@@ -15,6 +15,35 @@ describe QueueItem do
 
   end
 
+  describe "#rating=" do
+    it "changes the rating of the review if the review is present" do
+      video = Fabricate(:video)
+      user = Fabricate(:user)
+      review = Fabricate(:review, user: user, video: video, rating: 2)
+      q1 = Fabricate(:queue_item, user: user, video: video)
+      q1.rating = 4
+      expect(Review.first.rating).to eq(4)
+    end
+
+    it "clears the rating of the review if the review is present" do
+      video = Fabricate(:video)
+      user = Fabricate(:user)
+      review = Fabricate(:review, user: user, video: video, rating: 2)
+      q1 = Fabricate(:queue_item, user: user, video: video)
+      q1.rating = nil
+      expect(Review.first.rating).to be_nil
+    end
+
+    it "creates a new review if the review is not present" do
+      video = Fabricate(:video)
+      user = Fabricate(:user)
+      q1 = Fabricate(:queue_item, user: user, video: video)
+      q1.rating = 3
+      expect(Review.first.rating).to eq(3)
+    end
+
+  end
+
   describe "#rating" do
 
     it 'should return the rating of the associated video when present' do
