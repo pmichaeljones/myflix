@@ -50,8 +50,6 @@ describe VideosController do
       expect(response).to redirect_to sign_in_path
     end
 
-
-
     it "renders the results template instead of search template" do
       session[:user_id] = Fabricate(:user).id
       video = Fabricate(:video, title:"Gone with the wind")
@@ -59,6 +57,5 @@ describe VideosController do
       expect(response).to render_template :results
     end
 
-  end
-
-end #end VideosController
+  end #ends 'GET search'
+end #ends VideosController

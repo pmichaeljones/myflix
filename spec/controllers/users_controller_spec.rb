@@ -30,6 +30,7 @@ describe UsersController do
     end
 
     context 'with invalid input' do
+
       before do
         post :create, user: {password: '12345', full_name: 'Patrick Jones'}
       end
@@ -37,7 +38,6 @@ describe UsersController do
       it 'renders the :new template' do
         expect(response).to render_template :new
       end
-
 
       it 'does not create user' do
         expect(User.count).to eq(0)
@@ -48,7 +48,5 @@ describe UsersController do
       end
 
     end
-
   end
-
 end
