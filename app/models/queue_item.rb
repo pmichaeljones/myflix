@@ -7,15 +7,16 @@ class QueueItem < ActiveRecord::Base
   delegate :title, to: :video, prefix: :video
 
   validates_numericality_of :position, {only_integer: true}
+
+
+
   def category_name
     category.name
   end
 
   def rating
     review = Review.where(user_id: user.id, video_id: video.id).first
-
     review == nil ? nil : review.rating
-
   end
 
 end
