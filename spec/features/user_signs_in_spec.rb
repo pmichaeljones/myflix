@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-feature 'User signs in ' do
+feature 'User signs in' do
   let(:bob){ Fabricate(:user) }
 
   scenario 'with correct email' do
