@@ -16,7 +16,7 @@ describe SessionsController do
     end
 
   end
-# # # # #
+
   describe 'POST create' do
 
     it 'should find the user by their email address' do
@@ -69,9 +69,8 @@ describe SessionsController do
       end
 
     end
-
   end
-# # # #
+
   describe 'GET destroy' do
 
     before do
@@ -89,5 +88,4 @@ describe SessionsController do
     end
 
   end
-
 end

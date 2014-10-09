@@ -33,10 +33,8 @@ describe QueueItemsController do
       expect(QueueItem.count).to eq(1)
     end
 
-
-    it 'redirects to signin page for unauthenticated users' do
-      delete :destroy, id: 1
-      expect(response).to redirect_to sign_in_path
+    it_behaves_like "requires sign in" do
+      let(:action) { delete :destroy, id: 1}
     end
 
     it 'normalizes the positions of remaining queue' do
@@ -51,11 +49,10 @@ describe QueueItemsController do
 
   end
 
-
   describe 'GET index' do
     it 'sets @queue_items to the queue items of the logged-in user' do
       bob = Fabricate(:user)
-      session[:user_id] = bob.id
+      set_current_user(bob)
       qi1 = Fabricate(:queue_item, user: bob)
       qi2 = Fabricate(:queue_item, user: bob)
 
@@ -63,9 +60,8 @@ describe QueueItemsController do
       expect(assigns(:queue_items)).to match_array([qi1, qi2])
     end
 
-    it 'redirects to the sign in page for unauthenticated user' do
-      get :index
-      expect(response).to redirect_to sign_in_path
+    it_behaves_like "requires sign in" do
+      let(:action) { get :index }
     end
 
   end
@@ -76,9 +72,7 @@ describe QueueItemsController do
       let(:diehard) {Fabricate(:video)}
       let(:jim) {Fabricate(:user)}
 
-      before do
-        session[:user_id] = jim.id
-      end
+      before { set_current_user(jim) }
 
       it 'redirects to the my queue page' do
         post :create, video_id: diehard.id
@@ -94,7 +88,6 @@ describe QueueItemsController do
         post :create, video_id: diehard.id
         expect(QueueItem.first.video).to eq(diehard)
       end
-
 
       it 'creates a queue item that is associated with signed in user' do
         post :create, video_id: diehard.id
@@ -115,19 +108,18 @@ describe QueueItemsController do
         expect(QueueItem.count).to eq(1)
       end
 
-
-      it 'redirects to the signin page for unauth users' do
-        session[:user_id] = nil
-        post :create, video_id: 3
-        expect(response).to redirect_to sign_in_path
+      it_behaves_like "requires sign in" do
+        let(:action) { post :create, video_id: 3 }
       end
 
-
     end
-
   end
 
   describe 'POST update_queue' do
+
+    it_behaves_like "requires sign in" do
+        let(:action) { post :update_queue, queue_items:[{id: 1, position: 3}, {id: 2, position: 2.1}] }
+      end
 
     context 'with valid inputs' do
       let(:bob) { Fabricate(:user) }
@@ -135,9 +127,7 @@ describe QueueItemsController do
       let(:queue_item1) { Fabricate(:queue_item, user: bob, position: 1, video: video) }
       let(:queue_item2) { Fabricate(:queue_item, user: bob, position: 2, video: video) }
 
-      before do
-        session[:user_id] = bob.id
-      end
+      before { set_current_user(bob) }
 
       it 'redirects to the my queue page' do
         post :update_queue, queue_items: [{id: queue_item1.id, position: 2}, {id: queue_item2.id, postion: 1}]
@@ -164,7 +154,7 @@ describe QueueItemsController do
       let(:queue_item2) { Fabricate(:queue_item, user: bob, video: video) }
 
       it 'redirects to the my queue page' do
-        session[:user_id] = bob.id
+        set_current_user(bob)
         post :update_queue, queue_items: [{id: queue_item1.id, position: 3.4}, {id: queue_item2.id, position: 2}]
         expect(response).to redirect_to my_queue_path
       end
@@ -182,21 +172,11 @@ describe QueueItemsController do
 
     end
 
-    context 'with unauthenticated user' do
-      it 'should redirect to sign_in path' do
-        post :update_queue, queue_items:
-        [{id: 1, position: 3},
-        {id: 2, position: 2.1}]
-        expect(response).to redirect_to sign_in_path
-      end
-
-    end
-
     context 'with queue items that do not below to current user' do
 
       it 'does not change the queue item' do
         bob = Fabricate(:user)
-        session[:user_id] = bob.id
+        set_current_user(bob)
         phil = Fabricate(:user)
         queue_item1 = Fabricate(:queue_item, user: phil, position: 1)
         post :update_queue, queue_items:[{id: queue_item1.id, position: 2}]
@@ -205,10 +185,5 @@ describe QueueItemsController do
       end
 
     end
-
-
   end
-
-
-
 end

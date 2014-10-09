@@ -15,6 +15,7 @@ describe ReviewsController do
 
     context "with authenticated user" do
       let(:current_user) { Fabricate(:user) }
+
       before do
         session[:user_id] = current_user.id
       end
@@ -68,12 +69,7 @@ describe ReviewsController do
           expect(response).to render_template "videos/show"
         end
 
-
       end
-
     end
-
   end
-
-
 end
