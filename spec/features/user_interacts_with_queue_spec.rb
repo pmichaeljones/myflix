@@ -10,11 +10,12 @@ feature "User interacts with the queue" do
 
     sign_in
 
-    find("a[href='/videos/#{diehard.id}']").click
-    page.should have_content(diehard.title)
+    find_video_and_add_to_queue(diehard)
 
     click_link "+ My Queue"
-    page.should have_content(diehard.title)
+    queue_should_contain(diehard)
+
+
 
     visit video_path(diehard)
     page.should_not have_content("+ My Queue")
@@ -44,12 +45,21 @@ feature "User interacts with the queue" do
     expect_video_location(diehard, 3)
     expect_video_location(anchorman, 1)
     expect_video_location(superbad, 2)
+
+  end
+
+  def queue_should_contain(video)
+    page.should have_content(video.title)
+  end
+
+  def find_video_and_add_to_queue(video)
+    find("a[href='/videos/#{video.id}']").click
+    page.should have_content(video.title)
   end
 
   def find_video_and_set_new_position(video, position)
     find("input[data-video-id='#{video.id}']").set(position)
   end
-
 
   def add_video_to_queue(video)
     visit root_path
