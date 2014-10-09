@@ -19,14 +19,10 @@ feature "User interacts with the queue" do
     visit video_path(diehard)
     page.should_not have_content("+ My Queue")
 
-    visit root_path
-    find("a[href='/videos/#{anchorman.id}']").click
-    click_link "+ My Queue"
+    add_video_to_queue(anchorman)
+    add_video_to_queue(superbad)
 
-    visit root_path
-    find("a[href='/videos/#{superbad.id}']").click
-    click_link "+ My Queue"
-
+    # will learn xpath in the future. Commented out for now.
     # within(:xpath, "//tr[contains(.,'#{diehard.title}')]") do
     #   fill_in "queue_items[][position]", with: 3
     # end
@@ -39,18 +35,30 @@ feature "User interacts with the queue" do
     #   fill_in "queue_items[][position]", with: 2
     # end
 
-    find("input[data-video-id='#{diehard.id}']").set(3)
-    find("input[data-video-id='#{anchorman.id}']").set(1)
-    find("input[data-video-id='#{superbad.id}']").set(2)
-
+    find_video_and_set_new_position(diehard, 3)
+    find_video_and_set_new_position(anchorman, 1)
+    find_video_and_set_new_position(superbad, 2)
 
     click_button "Update Instant Queue"
 
-    expect(find("input[data-video-id='#{diehard.id}']").value).to eq("3")
-    expect(find("input[data-video-id='#{anchorman.id}']").value).to eq("1")
-    expect(find("input[data-video-id='#{superbad.id}']").value).to eq("2")
+    expect_video_location(diehard, 3)
+    expect_video_location(anchorman, 1)
+    expect_video_location(superbad, 2)
+  end
+
+  def find_video_and_set_new_position(video, position)
+    find("input[data-video-id='#{video.id}']").set(position)
+  end
 
 
+  def add_video_to_queue(video)
+    visit root_path
+    find("a[href='/videos/#{video.id}']").click
+    click_link "+ My Queue"
+  end
+
+  def expect_video_location(video, position)
+    expect(find("input[data-video-id='#{video.id}']").value).to eq(position.to_s)
   end
 
 end
