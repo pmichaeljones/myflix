@@ -2,6 +2,8 @@ require 'spec_helper'
 
 feature "user signs in" do
 
+  scenario "this happens"
+
 end
 
 feature "user adds movie to queue" do
