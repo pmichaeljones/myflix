@@ -4,6 +4,8 @@ class User < ActiveRecord::Base
 
   has_many :queue_items, -> { order('position') }
 
+  has_many :following_relationships, class_name: "Relationship", foreign_key: :follower_id
+
   has_secure_password validations: false
 
   validates_presence_of :full_name, :email_address, :password
