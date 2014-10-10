@@ -4,9 +4,32 @@ describe RelationshipsController do
 
   describe 'DELETE destroy' do
 
-    it 'deletes the relationships if the current user is the follower'
+    it_behaves_like 'requires sign in' do
+      let(:action) { delete :destroy, id: 5}
+    end
+
+    it 'deletes the relationships if the current user is the follower' do
+      bob = Fabricate(:user)
+      set_current_user(bob)
+      john = Fabricate(:user)
+      relationship = Fabricate(:relationship, follower: bob, leader: john)
+
+      delete :destroy, id: relationship
+      expect(Relationship.count).to eq(0)
+    end
 
     it 'does not delete the relationship if the current user is not a follower'
+
+    it 'redirects to the people page' do
+      bob = Fabricate(:user)
+      set_current_user(bob)
+      john = Fabricate(:user)
+      relationship = Fabricate(:relationship, follower: bob, leader: john)
+
+      delete :destroy, id: relationship
+      expect(response).to redirect_to people_path
+    end
+
 
   end
 

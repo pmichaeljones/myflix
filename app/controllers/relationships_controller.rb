@@ -5,4 +5,8 @@ class RelationshipsController < ApplicationController
     @relationships = current_user.following_relationships
   end
 
+  def destroy
+    redirect_to people_path
+  end
+
 end
