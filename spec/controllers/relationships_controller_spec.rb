@@ -14,6 +14,10 @@ describe RelationshipsController do
       expect(assigns(:relationships)).to eq([relationship])
     end
 
+    it_behaves_like "requires sign in" do
+      let(:action){ get :index }
+    end
+
   end
 
 
