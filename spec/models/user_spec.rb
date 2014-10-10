@@ -16,7 +16,6 @@ describe "#queued_video?" do
     expect(user.queued_video?(video)).to eq(true)
   end
 
-  it "returns false when the user has not queued the video"
 end
 
 end
