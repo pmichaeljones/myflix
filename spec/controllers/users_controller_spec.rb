@@ -2,18 +2,20 @@ require 'spec_helper'
 
 describe UsersController do
  # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-  describe 'Get show' do
+  describe 'GET show' do
+    let(:bob){ Fabricate(:user) }
 
     it 'sets @user to current user' do
-      bob = Fabricate(:user)
+      set_current_user(bob)
 
-      get :show, params: {user_id: bob.id}
+      get :show, id: bob.id
       expect(assigns(:user)).to eq(bob)
     end
 
 
     it 'renders show template' do
-      get :show
+      set_current_user(bob)
+      get :show, id: bob.id
       expect(response).to render_template :show
     end
 
