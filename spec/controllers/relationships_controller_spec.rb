@@ -2,6 +2,14 @@ require 'spec_helper'
 
 describe RelationshipsController do
 
+  describe 'DELETE destroy' do
+
+    it 'deletes the relationships if the current user is the follower'
+
+    it 'does not delete the relationship if the current user is not a follower'
+
+  end
+
   describe 'GET index' do
 
     it 'sets @relationships to the current users following relationships' do
