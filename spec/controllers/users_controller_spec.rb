@@ -1,7 +1,25 @@
 require 'spec_helper'
 
 describe UsersController do
+ # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+  describe 'Get show' do
 
+    it 'sets @user to current user' do
+      bob = Fabricate(:user)
+
+      get :show, params: {user_id: bob.id}
+      expect(assigns(:user)).to eq(bob)
+    end
+
+
+    it 'renders show template' do
+      get :show
+      expect(response).to render_template :show
+    end
+
+
+  end
+ # # # # # # # # # # # # # # # # # # # # # # # # # # # #
   describe 'GET new' do
 
     it 'sets @user' do
@@ -10,7 +28,7 @@ describe UsersController do
     end
 
   end
-
+ # # # # # # # # # # # # # # # # # # # # # # # # # # # #
   describe 'POST create' do
 
     context 'with valid input' do
