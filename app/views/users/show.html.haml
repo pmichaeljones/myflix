@@ -5,7 +5,7 @@
         %header
           %img(src='http://www.gravatar.com/avatar/#{Digest::MD5.hexdigest("#{@user.email_address.downcase}")}?s=40')
           %h2 #{@user.full_name}'s video collections (#{@user.queue_items.count})
-          %button.btn.btn-default Follow
+          =link_to "Follow User", relationship_path(@user), class: "btn btn-default pull-right"
         %table.table
           %thead
             %tr

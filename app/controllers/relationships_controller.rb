@@ -6,6 +6,8 @@ class RelationshipsController < ApplicationController
   end
 
   def destroy
+    relationship = Relationship.find(params[:id])
+    relationship.destroy unless relationship.follower != current_user
     redirect_to people_path
   end
 

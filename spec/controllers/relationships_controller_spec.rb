@@ -2,6 +2,18 @@ require 'spec_helper'
 
 describe RelationshipsController do
 
+  describe 'POST create' do
+
+    it_behaves_like 'requires sign in' do
+      let(:action) { post :create, id: 3}
+    end
+
+    it 'creates relationship between current_user and leader'
+
+    it 'redirects to followers page for current user'
+
+  end
+
   describe 'DELETE destroy' do
 
     it_behaves_like 'requires sign in' do
@@ -18,7 +30,16 @@ describe RelationshipsController do
       expect(Relationship.count).to eq(0)
     end
 
-    it 'does not delete the relationship if the current user is not a follower'
+    it 'does not delete the relationship if the current user is not a follower' do
+      bob = Fabricate(:user)
+      pete = Fabricate(:user)
+      set_current_user(bob)
+      john = Fabricate(:user)
+      relationship = Fabricate(:relationship, follower: pete, leader: john)
+
+      delete :destroy, id: relationship
+      expect(Relationship.count).to eq(1)
+    end
 
     it 'redirects to the people page' do
       bob = Fabricate(:user)
