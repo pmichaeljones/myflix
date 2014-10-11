@@ -7,13 +7,7 @@ class RelationshipsController < ApplicationController
 
   def create
     leader = User.find(params[:id])
-    relationship = Relationship.create(follower: current_user, leader: leader)
-
-    if relationship.save
-      flash[:notice] = "Friendship created!"
-    else
-      flash[:danger] = "Something went wrong."
-    end
+    Relationship.create(follower: current_user, leader: leader) if current_user.can_follow?(leader)
 
     redirect_to people_path
 

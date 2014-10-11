@@ -17,6 +17,26 @@ describe RelationshipsController do
       expect(Relationship.count).to eq(1)
     end
 
+    it "doesn't allow one of follow themselves" do
+      bob = Fabricate(:user)
+      set_current_user(bob)
+
+      post :create, id: bob.id
+      expect(Relationship.count).to eq(0)
+    end
+
+
+    it "doesn't create a relationship if the current user already follows the leader" do
+      bob = Fabricate(:user)
+      john = Fabricate(:user)
+      set_current_user(bob)
+      relationship = Fabricate(:relationship, leader: john, follower: bob)
+
+      post :create, id: john.id
+      expect(Relationship.count).to eq(1)
+    end
+
+
 
     it 'redirects to people page for current user' do
       bob = Fabricate(:user)
