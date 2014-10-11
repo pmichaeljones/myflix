@@ -16,6 +16,7 @@ class RelationshipsController < ApplicationController
     end
 
     redirect_to people_path
+
   end
 
 
