@@ -19,9 +19,9 @@ Myflix::Application.routes.draw do
   resources :queue_items, only: [:create, :destroy, :update]
   post 'update_queue', to: 'queue_items#update_queue'
 
-  resources :relationships, only: [:destroy]
+  resources :relationships, only: [:destroy, :create]
 
-  post '/relationships/:id', to: 'relationships#create'
+  #post '/relationships/:id', to: 'relationships#create'
 
   get '/people', to: 'relationships#index'
 

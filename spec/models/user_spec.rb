@@ -23,14 +23,14 @@ describe User do
       bob = Fabricate(:user)
       jim = Fabricate(:user)
       relationship = Fabricate(:relationship, leader: jim, follower: bob)
-      expect(bob.follows?(jim)). to be_true
+      expect(bob.follows?(jim)).to eq(true)
     end
 
     it "returns false if the user does not have a following relationship with the other user" do
       bob = Fabricate(:user)
       jim = Fabricate(:user)
       relationship = Fabricate(:relationship, leader: bob, follower: jim)
-      expect(bob.follows?(jim)). to be_false
+      expect(bob.follows?(jim)).to eq(false)
     end
 
   end
