@@ -8,9 +8,24 @@ describe RelationshipsController do
       let(:action) { post :create, id: 3}
     end
 
-    it 'creates relationship between current_user and leader'
+    it 'creates relationship between current_user and leader' do
+      bob = Fabricate(:user)
+      set_current_user(bob)
+      john = Fabricate(:user)
 
-    it 'redirects to followers page for current user'
+      post :create, id: john.id
+      expect(Relationship.count).to eq(1)
+    end
+
+
+    it 'redirects to people page for current user' do
+      bob = Fabricate(:user)
+      set_current_user(bob)
+      john = Fabricate(:user)
+
+      post :create, id: john.id
+      expect(response).to redirect_to people_path
+    end
 
   end
 
