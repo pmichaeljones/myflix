@@ -1,7 +1,30 @@
 require 'spec_helper'
 
 describe UsersController do
+ # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+  describe 'GET show' do
+    let(:bob){ Fabricate(:user) }
 
+    it_behaves_like "requires sign in" do
+      let(:action) { get :show, id: bob.id}
+    end
+
+    it 'sets @user to current user' do
+      set_current_user(bob)
+
+      get :show, id: bob.id
+      expect(assigns(:user)).to eq(bob)
+    end
+
+    it 'renders show template' do
+      set_current_user(bob)
+      get :show, id: bob.id
+      expect(response).to render_template :show
+    end
+
+
+  end
+ # # # # # # # # # # # # # # # # # # # # # # # # # # # #
   describe 'GET new' do
 
     it 'sets @user' do
@@ -10,7 +33,7 @@ describe UsersController do
     end
 
   end
-
+ # # # # # # # # # # # # # # # # # # # # # # # # # # # #
   describe 'POST create' do
 
     context 'with valid input' do

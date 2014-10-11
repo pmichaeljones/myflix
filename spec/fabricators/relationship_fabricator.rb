@@ -1,0 +1,4 @@
+Fabricator(:relationship) do
+
+end
+
