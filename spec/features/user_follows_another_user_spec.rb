@@ -26,7 +26,6 @@ feature 'user follows another user' do
 
   def verify_follow_status(leader)
     page.should have_content("#{leader.full_name}")
-    #expect(find("a[href='users/#{leader.id}']"))
   end
 
   def remove_follow_relationships
