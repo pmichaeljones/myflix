@@ -10,7 +10,7 @@ feature 'user follows another user' do
 
     visit_user_profile(jim)
 
-    click_follow_button
+    click_button
 
     verify_follow_status(bob, jim)
 
@@ -19,5 +19,21 @@ feature 'user follows another user' do
     verify_unfollow_status(bob, jim)
 
   end
+
+  def visit_user_profile(other_user)
+  end
+
+  def click_button(button_text)
+  end
+
+  def verify_follow_status(user1, user2)
+  end
+
+  def remove_follow_relationships
+  end
+
+  def verify_unfollow_status(user1, user2)
+  end
+
 
 end
