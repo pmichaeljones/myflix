@@ -12,11 +12,11 @@ feature 'user follows another user' do
 
     click_link("Follow User")
 
-    verify_follow_status(bob, jim)
+    verify_follow_status(jim)
 
     remove_follow_relationships
 
-    verify_unfollow_status(bob, jim)
+    verify_unfollow_status(jim)
 
   end
 
@@ -24,13 +24,17 @@ feature 'user follows another user' do
     visit("/users/#{other_user.id}")
   end
 
-  def verify_follow_status(user1, user2)
+  def verify_follow_status(leader)
+    page.should have_content("#{leader.full_name}")
+    #expect(find("a[href='users/#{leader.id}']"))
   end
 
   def remove_follow_relationships
+    find('a[data-method="delete"]').click
   end
 
-  def verify_unfollow_status(user1, user2)
+  def verify_unfollow_status(leader)
+    page.should_not have_content("#{leader.full_name}")
   end
 
 
