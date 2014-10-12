@@ -10,7 +10,7 @@ feature 'user follows another user' do
 
     visit_user_profile(jim)
 
-    click_button
+    click_link("Follow User")
 
     verify_follow_status(bob, jim)
 
@@ -21,9 +21,7 @@ feature 'user follows another user' do
   end
 
   def visit_user_profile(other_user)
-  end
-
-  def click_button(button_text)
+    visit("/users/#{other_user.id}")
   end
 
   def verify_follow_status(user1, user2)
