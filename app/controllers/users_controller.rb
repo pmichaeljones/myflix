@@ -15,6 +15,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
+      AppMailer.welcome_email(@user)
       flash[:info] = "You're all signed up!"
       redirect_to sign_in_path
     else
