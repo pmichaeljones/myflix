@@ -33,4 +33,12 @@ Myflix::Application.routes.draw do
   post '/sign_in', to: 'sessions#create'
   get '/log_out', to: 'sessions#destroy'
 
+  get '/forgot_password', to: 'forgot_passwords#new'
+  resources :forgot_passwords, only: [:create]
+  get 'forgot_password_confirmation', to: 'forgot_passwords#confirm'
+
+  resources :password_resets, only: [:show, :create]
+
+  get 'expired_token', to: 'password_resets#expired'
+
 end
