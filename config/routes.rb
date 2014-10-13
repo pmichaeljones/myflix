@@ -36,5 +36,6 @@ Myflix::Application.routes.draw do
   get '/forgot_password', to: 'forgot_passwords#new'
   resources :forgot_passwords, only: [:create]
   get 'forgot_password_confirmation', to: 'forgot_passwords#confirm'
-  #get 'reset_password'
+
+  resources :password_resets, only: [:show]
 end
