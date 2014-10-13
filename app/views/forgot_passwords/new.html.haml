@@ -7,8 +7,8 @@
           %p We will send you an email with a link that you can use to reset your password.
         .form-group
           = label_tag :email, "Email Address"
-          .row
-            .col-sm-4
-              = text_field_tag :email, nil, class: 'form-control'
+        .row
+          .col-sm-4
+            = text_field_tag :email, nil, class: 'form-control'
         .form-group.action
           %input(type="submit" value="Send Email" class="btn btn-default")
