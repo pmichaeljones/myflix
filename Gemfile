@@ -25,6 +25,7 @@ group :development, :test do
   gem 'pry', '0.9.10'
   gem 'pry-nav'
   gem 'letter_opener'
+  gem 'capybara-email'
 end
 
 group :test do
