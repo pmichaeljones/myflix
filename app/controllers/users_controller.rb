@@ -1,6 +1,17 @@
 class UsersController < ApplicationController
   before_filter :require_user, :only => [:show]
 
+  def new_with_invitation_token
+    invitation = Invitation.where(token: params[:token]).first
+    if invitation
+      @user = User.new(email_address: invitation.recipient_email)
+      render :new
+    else
+      redirect_to expired_token_path
+    end
+
+  end
+
   def show
     @user = User.find(params[:id])
   end
