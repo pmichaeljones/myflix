@@ -11,4 +11,10 @@ class AppMailer < ActionMailer::Base
     mail to: user.email_address, subject:"Forgot Password Email for MyFlixx"
   end
 
+  def send_invitation_email(invitation)
+    @invitation = invitation
+    mail to: invitation.recipient_email, subject: "Come Join MyFlix!"
+  end
+
+
 end

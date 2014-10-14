@@ -35,8 +35,19 @@ describe InvitationsController do
         expect(Invitation.count).to eq(1)
       end
 
-      it 'sends an email to the recipient'
-      it 'sets the flash success message'
+      it 'sends an email to the recipient' do
+        set_current_user
+        post :create, invitation: { recipient_name: "Patrick", recipient_email: "p@jones.com", message: "Come join my site!"}
+        expect(ActionMailer::Base.deliveries.last.to).to eq(["p@jones.com"])
+
+      end
+
+      it 'sets the flash success message' do
+        set_current_user
+        post :create, invitation: { recipient_name: "Patrick", recipient_email: "p@jones.com", message: "Come join my site!"}
+        expect(flash[:info]).to be_present
+      end
+
     end
 
     context "with invalid input" do

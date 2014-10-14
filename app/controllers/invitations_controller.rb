@@ -6,9 +6,10 @@ class InvitationsController < ApplicationController
   end
 
   def create
-    @invitation = Invitation.create(invite_params)
-    @invitation.update_column(:inviter_id, current_user.id)
-    binding.pry
+    invitation = Invitation.create(invite_params)
+    invitation.update_column(:inviter_id, current_user.id)
+    AppMailer.send_invitation_email(invitation).deliver
+    flash[:info] = "Invitation delivered."
     redirect_to new_invitation_path
   end
 
