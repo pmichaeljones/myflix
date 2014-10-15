@@ -6,6 +6,7 @@ class InvitationsController < ApplicationController
   end
 
   def create
+    #binding.pry
     @invitation = Invitation.create(invite_params)
     if @invitation.save
       @invitation.update_column(:inviter_id, current_user.id)

@@ -16,8 +16,6 @@ feature 'User resets password' do
     fill_in "New Password", with: "new_password"
     click_button "Reset Password"
 
-    #save_and_open_page
-
     fill_in "email", with: patrick.email_address
     fill_in "password", with: "new_password"
     click_button "Sign in"
