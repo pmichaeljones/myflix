@@ -69,7 +69,7 @@ describe InvitationsController do
       it 'does not send out email' do
         set_current_user
         post :create, invitation: { recipient_email: "p@jones.com", message: "Come join my site!"}
-        expect(ActionMailer::Base.deliveries).to be_empty
+        expect(ActionMailer::Base.deliveries).to eq([])
       end
 
       it 'sets the flash danger message' do

@@ -21,6 +21,12 @@ describe UsersController do
       expect(response).to redirect_to expired_token_path
     end
 
+    it 'sets the @invitation_token variable' do
+      invitation = Fabricate(:invitation)
+      get :new_with_invitation_token, token: invitation.token
+      expect(assigns(:invitation_token)).to eq(invitation.token)
+    end
+
   end
 
  # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -92,6 +98,17 @@ describe UsersController do
       it 'redirects to sign in page' do
         expect(response).to redirect_to sign_in_path
       end
+
+      it 'makes the user follower the inviter' do
+        patrick = Fabricate(:user)
+        invitation = Fabricate(:invitation, inviter: patrick, recipient_email: 'joe@example.com')
+        post :create, user: {email_address: 'joe@example.com', password: "password", full_name: "Jonny"}, invitation_token: invitation.token
+        joe = User.where(email_address: 'joe@example.com').first
+        expect(joe.follows?(patrick)).to eq(true)
+      end
+
+      it 'makes the inviter follow the user'
+      it 'expires the invitation upon acceptance'
 
     end
 

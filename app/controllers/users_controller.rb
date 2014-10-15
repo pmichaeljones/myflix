@@ -4,6 +4,7 @@ class UsersController < ApplicationController
   def new_with_invitation_token
     invitation = Invitation.where(token: params[:token]).first
     if invitation
+      @invitation_token = invitation.token
       @user = User.new(email_address: invitation.recipient_email)
       render :new
     else
