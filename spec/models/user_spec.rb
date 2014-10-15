@@ -23,6 +23,24 @@ describe User do
     end
   end
 
+  describe "#follow" do
+    it "follows another user" do
+      patrick = Fabricate(:user)
+      jim = Fabricate(:user)
+      patrick.follow(jim)
+      expect(patrick.follows?(jim)).to eq(true)
+    end
+
+    it "does not follow oneself" do
+      patrick = Fabricate(:user)
+      patrick.follow(patrick)
+      expect(patrick.follows?(patrick)).to eq(false)
+    end
+
+
+  end
+
+
   describe "#follows?" do
     it "returns true if the user has a following relationship with the other user" do
       bob = Fabricate(:user)
