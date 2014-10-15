@@ -23,6 +23,7 @@ feature 'User resets password' do
     click_button "Sign in"
 
     expect(page).to have_content("Welcome, #{patrick.full_name}")
+
   end
 
 end
