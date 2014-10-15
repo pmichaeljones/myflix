@@ -26,10 +26,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-      if params[:invitation_token].present?
-        invitation = Invitation.where(token: params[:invitation_token]).first
-        @user.follow(invitation.inviter)
-      end
+      handle_invitation
       AppMailer.welcome_email(@user).deliver
       flash[:info] = "You're all signed up!"
       redirect_to sign_in_path
@@ -41,6 +38,16 @@ class UsersController < ApplicationController
 
 
   private
+
+  def handle_invitation
+    if params[:invitation_token].present?
+      invitation = Invitation.where(token: params[:invitation_token]).first
+      @user.follow(invitation.inviter)
+      invitation.inviter.follow(@user)
+      invitation.update_column(:token, nil)
+    end
+  end
+
 
   def require_same_user
     @user = User.find_by slug: params[:id]

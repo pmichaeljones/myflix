@@ -107,8 +107,20 @@ describe UsersController do
         expect(joe.follows?(patrick)).to eq(true)
       end
 
-      it 'makes the inviter follow the user'
-      it 'expires the invitation upon acceptance'
+      it 'makes the inviter follow the user' do
+        patrick = Fabricate(:user)
+        invitation = Fabricate(:invitation, inviter: patrick, recipient_email: 'joe@example.com')
+        post :create, user: {email_address: 'joe@example.com', password: "password", full_name: "Jonny"}, invitation_token: invitation.token
+        joe = User.where(email_address: 'joe@example.com').first
+        expect(patrick.follows?(joe)).to eq(true)
+      end
+
+      it 'expires the invitation upon acceptance' do
+        patrick = Fabricate(:user)
+        invitation = Fabricate(:invitation, inviter: patrick, recipient_email: 'joe@example.com')
+        post :create, user: {email_address: 'joe@example.com', password: "password", full_name: "Jonny"}, invitation_token: invitation.token
+        expect(Invitation.first.token).to be_nil
+      end
 
     end
 
