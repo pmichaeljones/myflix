@@ -1,6 +1,18 @@
 class UsersController < ApplicationController
   before_filter :require_user, :only => [:show]
 
+  def new_with_invitation_token
+    invitation = Invitation.where(token: params[:token]).first
+    if invitation
+      @invitation_token = invitation.token
+      @user = User.new(email_address: invitation.recipient_email)
+      render :new
+    else
+      redirect_to expired_token_path
+    end
+
+  end
+
   def show
     @user = User.find(params[:id])
   end
@@ -11,10 +23,10 @@ class UsersController < ApplicationController
 
   def create
     #binding.pry
-
     @user = User.new(user_params)
 
     if @user.save
+      handle_invitation
       AppMailer.welcome_email(@user).deliver
       flash[:info] = "You're all signed up!"
       redirect_to sign_in_path
@@ -26,6 +38,16 @@ class UsersController < ApplicationController
 
 
   private
+
+  def handle_invitation
+    if params[:invitation_token].present?
+      invitation = Invitation.where(token: params[:invitation_token]).first
+      @user.follow(invitation.inviter)
+      invitation.inviter.follow(@user)
+      invitation.update_column(:token, nil)
+    end
+  end
+
 
   def require_same_user
     @user = User.find_by slug: params[:id]
