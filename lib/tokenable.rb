@@ -11,6 +11,4 @@ module Tokenable
 
   end
 
-  def
-
 end
