@@ -9,6 +9,10 @@ describe User do
   it { should have_many(:queue_items).order('position') }
   it { should have_many(:reviews).order("created_at DESC") }
 
+  it_behaves_like "tokenable" do
+    let(:object){ Fabricate(:user) }
+  end
+
   it "generates a random token when the user is created" do
     bob = Fabricate(:user)
     expect(bob.token).to be_present
