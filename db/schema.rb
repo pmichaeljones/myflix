@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20141014210823) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "categories", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
@@ -45,7 +48,7 @@ ActiveRecord::Schema.define(version: 20141014210823) do
   end
 
   create_table "reviews", force: true do |t|
-    t.integer  "user_id",    limit: 255
+    t.integer  "user_id"
     t.text     "body"
     t.integer  "video_id"
     t.integer  "rating"
