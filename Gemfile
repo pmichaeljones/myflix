@@ -14,6 +14,7 @@ gem "faker"
 gem "fabrication"
 gem 'pg'
 gem 'sidekiq'
+gem 'unicorn'
 
 
 group :development do
