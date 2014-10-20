@@ -13,6 +13,7 @@ gem 'bootstrap_form'
 gem "faker"
 gem "fabrication"
 gem 'pg'
+gem 'sidekiq'
 
 
 group :development do
