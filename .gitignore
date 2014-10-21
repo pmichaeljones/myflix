@@ -7,6 +7,9 @@
 # Ignore bundler config
 /.bundle
 
+#ignore redis dump
+/dump.rdb
+
 # Ignore the default SQLite database.
 /db/*.sqlite3
 
