@@ -41,10 +41,9 @@ describe Review do
   context 'when many reviews' do
 
     it 'should sort from oldest to newest' do
-      r1 = Review.create(video_id: 1, user_id: 1, body: "Great movie", rating: 4)
-      r1 = Review.create(video_id: 1, user_id: 2, body: "Great movie", rating: 4)
-      sad_review = Review.create(video_id: 1, user_id: 3, body: "Sad", rating: 3 )
-
+      r1 = Review.create(video: video, user_id: 1, body: "Great movie", rating: 4)
+      r1 = Review.create(video: video, user_id: 2, body: "Great movie", rating: 4)
+      sad_review = Review.create(video: video, user_id: 3, body: "Sad", rating: 3 )
       expect(video.reviews.first).to eq(sad_review)
 
     end

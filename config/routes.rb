@@ -1,4 +1,8 @@
 Myflix::Application.routes.draw do
+  require 'sidekiq/web'
+
+  mount Sidekiq::Web => '/sidekiq'
+
   get 'ui(/:action)', controller: 'ui'
 
   root to: 'home#index'
@@ -43,5 +47,6 @@ Myflix::Application.routes.draw do
 
   resources :invitations, only: [:new, :create]
   get '/register/:token', to: "users#new_with_invitation_token", as: 'register_with_token'
+
 
 end

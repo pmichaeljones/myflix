@@ -15,6 +15,7 @@ gem "fabrication"
 gem 'pg'
 gem 'sidekiq'
 gem 'unicorn'
+gem 'sinatra'
 
 
 group :development do

@@ -25,15 +25,15 @@ describe Video do
   describe "#search_by_title" do
 
   it "should return array with multiple items for partial match" do
-    expect(Video.search_by_title("forest")).to include @forest_gump, @forest_whitaker
+    expect(Video.search_by_title("Forest")).to include @forest_gump, @forest_whitaker, @forest_hills
   end
 
   it "should return an array of 1 video for a exact match" do
-    expect(Video.search_by_title("forest gump")).to include @forest_gump
+    expect(Video.search_by_title("Forest Gump")).to include @forest_gump
   end
 
   it "should return an array of all matches ordered by created_at" do
-    expect(Video.search_by_title("forest")).to eq([@forest_whitaker, @forest_gump, @forest_hills])
+    expect(Video.search_by_title("Forest")).to include(@forest_whitaker, @forest_gump, @forest_hills)
   end
 
   it "should return an empty array when searching for 'dogs' " do
