@@ -16,6 +16,8 @@ gem 'pg'
 gem 'sidekiq'
 gem 'unicorn'
 gem 'sinatra'
+gem 'sentry-raven'
+
 
 
 group :development do
