@@ -17,6 +17,7 @@ gem 'sidekiq'
 gem 'unicorn'
 gem 'sinatra'
 gem 'sentry-raven'
+gem 'paratrooper'
 
 
 
